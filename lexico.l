@@ -7,12 +7,12 @@
 	FILE * archivo = NULL;
 %}
 %option noyywrap
-caracter _?[a-z](_?[a-z]|[0-9])*
+caracter _?[^\"]
 %%
 "*"|"&"|"-"|"~"|"|"|"("|")"|"++"|"--"|"=="|"!="|"<"|">"|"<="|">="|"&&"|"||"|"!"|"+"|"/"|"%"|"^"|"<<"|">>" {fprintf(archivo, "%s\n", yytext );}
 sizeof {fprintf(archivo,"SIZEOF\n");}
-'{caracter}'  {fprintf(archivo,"constante_caracter\n");}
-"{caracter}" {fprintf(archivo,"consante_cadena\n" );}
+\"{caracter}*\"  {fprintf(archivo,"CONSTANTE_CADENA\n");}
+\'{caracter}\' {fprintf(archivo,"CONSTANTE_CARACTER\n" );}
 <<EOF>> {yyterminate();}
 . ;
 
